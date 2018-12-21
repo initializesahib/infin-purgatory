@@ -19,43 +19,19 @@ class MetaModule:
     async def version(self, ctx):
         """Launches Git processes to get the latest commit versions of each module."""
         versions_message = f"**infin**: {self.bot.config['infin_version']}\n"
-        versions = []
-        versions.append(
-            subprocess.Popen(['git', 'ls-remote', 'git://github.com/infinbot/core.git'],
-                             stdout=subprocess.PIPE))
-        versions.append(
-            subprocess.Popen(['git', 'ls-remote', 'git://github.com/infinbot/base.git'],
-                             stdout=subprocess.PIPE))
-        versions.append(
-            subprocess.Popen(['git', 'ls-remote', 'git://github.com/infinbot/text.git'],
-                             stdout=subprocess.PIPE))
-        versions.append(
-            subprocess.Popen(['git', 'ls-remote', 'git://github.com/infinbot/meta.git'],
-                             stdout=subprocess.PIPE))
-        versions.append(
-            subprocess.Popen(['git', 'ls-remote', 'git://github.com/infinbot/voice.git'],
-                             stdout=subprocess.PIPE))
-        versions.append(
-            subprocess.Popen(['git', 'ls-remote', 'git://github.com/infinbot/image.git'],
-                             stdout=subprocess.PIPE))
-        versions[0].name = "core"
-        versions[1].name = "base"
-        versions[2].name = "text"
-        versions[3].name = "meta"
-        versions[4].name = "voice"
-        versions[5].name = "image"
-        while versions:
-            for version in versions:
-                finished = version.poll()
-                if finished is not None:
-                    versions.remove(version)
-                    dat = version.stdout.read().decode(
-                        'utf-8').split('\n')[0].split(' ')[0][:-5]
-                    versions_message = f'{versions_message}**{version.name}**: {dat}\n'
-                    break
-                else:
-                    await asyncio.sleep(0.1)
-                    continue
+        commit = subprocess.Popen(['git', 'ls-remote', 'git://github.com/initializesahib/infin-purgatory.git'], stdout=subprocess.PIPE)
+        commit.name = "commit"
+        done = False
+        while not done:
+          finished = commit.poll()
+          if finished is not None:
+            dat = commit.stdout.read().decode('utf-8').split('\n')[0].split(' ')[0][:-5]
+            versions_message = f'{versions_message}**{commit.name}**: {dat}\n'
+            done = True
+            break
+          else:
+            await asyncio.sleep(0.1)
+            continue
         await ctx.send(versions_message)
 
     @commands.command(name='status')

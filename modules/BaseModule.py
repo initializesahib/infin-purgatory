@@ -30,12 +30,6 @@ class BaseModule:
         discord_latency = latency_delta.total_seconds() * 1000
         await ctx.send(f':clock10: in **{discord_latency}** ms')
 
-    @commands.command(name='invite')
-    async def invite(self, ctx):
-        """Sends an invite to the official Infin server in private messages."""
-        await ctx.message.add_reaction('📬')
-        await ctx.message.author.send('https://discord.gg/7UnvACY')
-
     @commands.command(name='decide')
     async def decide(self, ctx, *choices):
         """Chooses an item out of a list of items."""
@@ -46,17 +40,17 @@ class BaseModule:
         """Sends an embed containing information about the bot."""
         info_embed = discord.Embed(colour=discord.Colour.blue())
         info_embed.set_author(name='Infin', icon_url=self.bot.user.avatar_url)
-        info_embed.add_field(name='Database', value='PostgreSQL')
+        info_embed.add_field(name='Database', value='PostgreSQL / MongoDB / Redis')
         info_embed.add_field(name='Version', value=self.bot.config['infin_version'])
         info_embed.add_field(
             name='Bot Library',
             value='[discord.py](https://discordpy.readthedocs.io/en/rewrite/)')
         info_embed.add_field(
             name='Developed By',
-            value='[InitializeSahib#0001](https://github.com/InitializeSahib)')
+            value='[InitializeSahib#1010](https://github.com/InitializeSahib)')
         info_embed.add_field(name='Help Command', value='infin help')
         info_embed.add_field(name='License', value='BSD-2-Clause')
-        info_embed.set_footer(text='Open source: https://github.com/infinbot')
+        info_embed.set_footer(text='Open source: https://github.com/initializesahib/infin-purgatory')
         await ctx.send(embed=info_embed)
 
 

@@ -13,24 +13,24 @@ class ModuleManager:
     @commands.is_owner()
     async def reload(self, ctx, *, module):
         """Unloads then loads a given module."""
-        self.bot.unload_extension(f'{module}.module')
-        self.bot.load_extension(f'{module}.module')
+        self.bot.unload_extension(f'modules.{module}')
+        self.bot.load_extension(f'modules.{module}')
         await ctx.message.add_reaction('✅')
 
     @commands.command(name='unload')
     @commands.is_owner()
     async def unload(self, ctx, *, module):
         """Unloads the given module."""
-        self.bot.unload_extension(f'{module}.module')
-        self.bot.config['modules'].remove(f'{module}.module')
+        self.bot.unload_extension(f'modules.{module}')
+        self.bot.config['modules'].remove(f'modules.{module}')
         await ctx.message.add_reaction('✅')
 
     @commands.command(name='load')
     @commands.is_owner()
     async def load(self, ctx, *, module):
         """Loads the given module."""
-        self.bot.load_extension(f'{module}.module')
-        self.bot.config['modules'].append(f'{module}.module')
+        self.bot.load_extension(f'modules.{module}')
+        self.bot.config['modules'].append(f'modules.{module}')
         await ctx.message.add_reaction('✅')
 
     @commands.command(name='modules')

@@ -8,14 +8,14 @@ import json
 import discord
 from discord.ext import commands
 from managers import RequestManager, ModuleManager, BlacklistManager
-import motor.motor_asyncio 
+import motor.motor_asyncio
 
-print('Infin 1.0.0 © 2018 Sahibdeep Nann')
+print('Infin 1.0.1 © 2018 Sahibdeep Nann')
 print('Licensed under BSD-2-Clause, see LICENSE for details')
 
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
-config['infin_version'] = '1.0.0'
+config['infin_version'] = '1.0.1'
 
 bot = commands.Bot(command_prefix='infin ',
                    description='The modularized, open Discord bot of the future.',
@@ -27,7 +27,7 @@ bot.blacklist = []
 async def on_ready():
     """Tells when we're connected to Discord and sets the default status."""
     print('Connected to Discord')
-    await bot.change_presence(game=discord.Game(name='infinbot.github.io'))
+    await bot.change_presence(activity=discord.Activity(name='infinbot.github.io'))
 
 
 @bot.event
@@ -52,7 +52,7 @@ async def start_infin():
             await conn.execute("CREATE TABLE IF NOT EXISTS blacklisted(id text);")
             blacklisted = await conn.fetch('SELECT * FROM blacklisted;')
             for user in blacklisted:
-                bot.blacklist.append(user['id'])  
+                bot.blacklist.append(user['id'])
     elif bot.config['database']['type'] == 'mongodb':
         bot.pool = motor.motor_asyncio.AsyncIOMotorClient(bot.config['database']['host'],
                                                           bot.config['database']['port'])
@@ -63,7 +63,7 @@ async def start_infin():
     elif bot.config['database']['type'] == 'redis':
         bot.pool = await aioredis.create_pool(f"redis://{bot.config['database']['host']}")
         print('Connected to Redis')
-        blacklisted = await bot.pool.lrange('blacklisted', 0, -1)
+        blacklisted = await bot.pool.execute('LRANGE', 'blacklisted', 0, -1)
         for user in blacklisted:
             bot.blacklist.append(user)
     print('Loaded blacklist')
