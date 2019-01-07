@@ -7,7 +7,7 @@ import asyncpg
 import json
 import discord
 from discord.ext import commands
-from managers import RequestManager, ModuleManager, BlacklistManager
+from managers import ModuleManager, BlacklistManager
 import motor.motor_asyncio
 
 print('Infin 1.0.2 © 2019 Sahibdeep Nann')
@@ -19,15 +19,15 @@ config['infin_version'] = '1.0.2'
 
 bot = commands.Bot(command_prefix='infin ',
                    description='The modular, open-source Discord bot of the future.',
+                   activity=discord.Game('infin info'),
                    pm_help=True)
 bot.config = config
 bot.blacklist = []
 
 @bot.event
 async def on_ready():
-    """Tells when we're connected to Discord and sets the default status."""
+    """Tells when we're connected to Discord."""
     print('Connected to Discord')
-    await bot.change_presence(activity=discord.Activity(name='infin info'))
 
 
 @bot.event
@@ -73,8 +73,6 @@ if __name__ == '__main__':
     print('Loaded manager BlacklistManager')
     bot.add_cog(ModuleManager.ModuleManager(bot))
     print('Loaded manager ModuleManager')
-    bot.add_cog(RequestManager.RequestManager(bot))
-    print('Loaded manager RequestManager')
     for module in bot.config['modules']:
         bot.load_extension(module)
         print(f'Loaded module {module}')
