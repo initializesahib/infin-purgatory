@@ -15,25 +15,6 @@ class MetaModule:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='version')
-    async def version(self, ctx):
-        """Launches Git processes to get the latest commit versions of each module."""
-        versions_message = f"**infin**: {self.bot.config['infin_version']}\n"
-        commit = subprocess.Popen(['git', 'ls-remote', 'git://github.com/initializesahib/infin-purgatory.git'], stdout=subprocess.PIPE)
-        commit.name = "commit"
-        done = False
-        while not done:
-          finished = commit.poll()
-          if finished is not None:
-            dat = commit.stdout.read().decode('utf-8').split('\n')[0].split(' ')[0][:-5]
-            versions_message = f'{versions_message}**{commit.name}**: {dat}\n'
-            done = True
-            break
-          else:
-            await asyncio.sleep(0.1)
-            continue
-        await ctx.send(versions_message)
-
     @commands.command(name='status')
     @commands.is_owner()
     async def status(self, ctx, *, new_status):
@@ -59,8 +40,7 @@ class MetaModule:
                 location = os.path.relpath(src.co_filename).replace('\\', '/')
                 module_name = location.split('/')[0]
                 rest = ''.join(location.split('/')[1:])
-                if location.startswith('managers'):
-                    root = 'https://github.com/infinbot/core'
+                root = 'https://github.com/initializesahib/infin-stable'
                 if not location.startswith('managers'):
                     source_url = f'<{root}/{module_name}/blob/master/{rest}#L{first_line}-L{first_line + len(lines) - 1}>'
                 else:
