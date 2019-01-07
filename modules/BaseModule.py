@@ -47,10 +47,10 @@ class BaseModule:
             value='[discord.py](https://discordpy.readthedocs.io/en/rewrite/)')
         info_embed.add_field(
             name='Developed By',
-            value='[InitializeSahib#1010](https://github.com/InitializeSahib)')
+            value='[InitializeSahib#0101](https://github.com/InitializeSahib)')
         info_embed.add_field(name='Help Command', value='infin help')
         info_embed.add_field(name='License', value='BSD-2-Clause')
-        info_embed.set_footer(text='Open source: https://github.com/initializesahib/infin-purgatory')
+        info_embed.set_footer(text='Open source: https://github.com/initializesahib/infin-stable')
         await ctx.send(embed=info_embed)
 
 
