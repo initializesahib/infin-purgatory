@@ -10,15 +10,15 @@ from discord.ext import commands
 from managers import RequestManager, ModuleManager, BlacklistManager
 import motor.motor_asyncio
 
-print('Infin 1.0.1 © 2018 Sahibdeep Nann')
+print('Infin 1.0.2 © 2019 Sahibdeep Nann')
 print('Licensed under BSD-2-Clause, see LICENSE for details')
 
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
-config['infin_version'] = '1.0.1'
+config['infin_version'] = '1.0.2'
 
 bot = commands.Bot(command_prefix='infin ',
-                   description='The modularized, open Discord bot of the future.',
+                   description='The modular, open-source Discord bot of the future.',
                    pm_help=True)
 bot.config = config
 bot.blacklist = []
@@ -27,7 +27,7 @@ bot.blacklist = []
 async def on_ready():
     """Tells when we're connected to Discord and sets the default status."""
     print('Connected to Discord')
-    await bot.change_presence(activity=discord.Activity(name='infinbot.github.io'))
+    await bot.change_presence(activity=discord.Activity(name='infin info'))
 
 
 @bot.event
@@ -42,10 +42,8 @@ async def on_message(msg):
 async def start_infin():
     """Connects to the database and Discord."""
     if bot.config['database']['type'] == 'postgres':
-        bot.pool = await asyncpg.create_pool(user=bot.config['database']['user'],
-                                             host=bot.config['database']['host'],
-                                             port=bot.config['database']['port'],
-                                             password=bot.config['database']['password'],
+        bot.pool = await asyncpg.create_pool(user='infin',
+                                             host='localhost',
                                              database='infin')
         print('Connected to PostgreSQL')
         async with bot.pool.acquire() as conn:
